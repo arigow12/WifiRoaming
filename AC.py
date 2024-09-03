@@ -1,4 +1,4 @@
-class AC:
+class AC_controller:
     def __init__(self, access_points):
         self.access_points = access_points
         self.memory = []
@@ -6,7 +6,7 @@ class AC:
     def change_channel(self):
         for a_point in self.access_points:
             conflicting_aps = [other_ap for other_ap in self.access_points if
-                               other_ap.channel == a.channel and other_ap != ap]
+                               other_ap.channel == a_point.channel and other_ap != a_point]
             if conflicting_aps:
                 preferred_channels = [11, 6, 1]
                 for channel in preferred_channels:

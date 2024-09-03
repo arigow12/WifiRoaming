@@ -1,6 +1,3 @@
-
-
-
 class ParseInput:
 
     def __init__(self):
@@ -27,15 +24,15 @@ class ParseInput:
             x = int(inputs[2]),
             y = int(inputs[3]),
             channel=int(inputs[4]),
-            power_level=int(inputs[5]),
-            frequency=float(inputs[6]),
+            power=int(inputs[5]),
+            freq=float(inputs[6]),
             standard=inputs[7],
-            supports_11k=inputs[8].lower() == 'true',
-            supports_11v=inputs[9].lower() == 'true',
-            supports_11r=inputs[10].lower() == 'true',
-            coverage_radius=int(inputs[11]),
+            y_11k=inputs[8].lower() == 'true',
+            y_11v=inputs[9].lower() == 'true',
+            y_11r=inputs[10].lower() == 'true',
+            radius=int(inputs[11]),
             device_limit=int(inputs[12]),
-            minimal_rssi=int(inputs[13]) if len(inputs) > 13 else 0
+            rssi=int(inputs[13]) if len(inputs) > 13 else 0
         )
         self.access_points.append(e_ap)
 
