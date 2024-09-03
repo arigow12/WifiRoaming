@@ -36,13 +36,13 @@ class AccessPoint:
         return self.power - 20 * math.log10(distance) - 20 * math.log10(self.freq) - 32.44
 
     def connect_client(self, client):
-        if self._can_connect_client(client):
-            self._add_client(client)
-            self._log_connection(client)
-            return True
-        else:
+        if not self._can_connect_client(client):
+            print(f"{client.name} could not connect to {self.name}: Device limit or other conditions not met.")
             self._log_denial(client)
             return False
+        self._add_client(client)
+        self._log_connection(client)
+        return True
 
     def _can_connect_client(self, client):
         return len(self.all_clients) < self.device_limit and client not in self.all_clients
@@ -52,7 +52,7 @@ class AccessPoint:
 
     def _log_connection(self, client):
         self.memory.append(
-            f"Step {client.step}: {client.name} CONNECT TO {self.name} WITH SIGNAL STRENGTH {client.current_rssi}")
+            f"Step {client.step}: {client.name} CONNECT TO {self.name} WITH SIGNAL STRENGTH {client.curr_rssi}")
 
     def _log_denial(self, client):
         self.memory.append(f"Step {client.step}: {client.name} TRIED {self.name} BUT WAS DENIED")
@@ -69,7 +69,7 @@ class AccessPoint:
         self.all_clients.remove(client)
 
     def log_removal(self, client):
-        self.memory.append(f"Step {client.step}: {client.name} DISCONNECT FROM {self.name} WITH SIGNAL STRENGTH {client.current_rssi}")
+        self.memory.append(f"Step {client.step}: {client.name} DISCONNECT FROM {self.name} WITH SIGNAL STRENGTH {client.curr_rssi}")
 
 
     def process_roaming(self, client):

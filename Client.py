@@ -13,6 +13,7 @@ class Client:
         self.count = 0
         self.client_x = client_x
         self.client_y = client_y
+        self.step = 0
 
     def move(self, new_x, new_y):
         self.client_x = new_x
@@ -21,13 +22,18 @@ class Client:
 
     def associate_with_ap(self, access_point):
         self.curr_rssi = self._get_rssi_from_ap(access_point)
-        if self._meets_minimal_rssi():
+        print(
+            f"Trying to associate {self.name} with {access_point.name}. RSSI: {self.curr_rssi}, Required: {self.rssi}")
+        if self._meets_minimal_rssi() and access_point.connect_client(self):
             self._update_connected_ap(access_point)
-            access_point.connect_client(self)
-
+            print(f"{self.name} successfully associated with {access_point.name}")
+        else:
+            print(f"{self.name} failed to associate with {access_point.name}. Conditions not met.")
 
     def _get_rssi_from_ap(self, access_point):
-        return access_point.calculate_rssi(self.client_x, self.client_y)
+        rssi = access_point.get_rssi(self.client_x, self.client_y)
+        print(f"Calculated RSSI for {self.name} from {access_point.name}: {rssi}")  # Debugging print
+        return rssi
 
     def _meets_minimal_rssi(self):
         return self.curr_rssi >= self.rssi
@@ -51,8 +57,11 @@ class Client:
 
     def assess_roaming_options(self, available_aps):
         optimal_ap = self._find_optimal_ap(available_aps)
-        if self._should_roam(optimal_ap):
+        if optimal_ap and self._should_roam(optimal_ap):
             self._roam_to(optimal_ap)
+            print(f"{self.name} roamed to {optimal_ap.name}")  # Debugging print
+        else:
+            print(f"{self.name} did not roam to a new AP")
 
     def _find_optimal_ap(self, aps):
         best_ap = None
