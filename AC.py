@@ -11,12 +11,13 @@ class AC_controller:
                 preferred_channels = [11, 6, 1]
                 for channel in preferred_channels:
                     if not any(ap.channel == channel for ap in self.access_points):
-                        a_point.adjust_channel(channel)
+                        a_point.give_channel_indicator(channel)
                         break
                 else:
-                    a_point.adjust_channel(a_point.channel - 1 if a_point.channel > 1 else 2)
+                    a_point.give_channel_indicator(a_point.channel - 1 if a_point.channel > 1 else 2)
 
     def change_memory(self):
         for a_point in self.access_points:
-            self.memory.extend(a_point.get_memory())
+            self.memory.extend(a_point.get_mem())
         return self.memory
+

@@ -78,9 +78,9 @@ class AccessPoint:
             roaming_type = "FAST ROAM TO" if self.y_11r else "ROAM TO"
             self.memory.append(f"Step {client.step}: {client.name} {roaming_type} {self.name}")
             return self.connect_client(client)
-
-        self.memory.append(f"Step {client.step}: {client.name} TRIED {self.name} BUT WAS DENIED")
-        return False
+        else:
+            self.memory.append(f"Step {client.step}: {client.name} TRIED {self.name} BUT WAS DENIED")
+            return False
 
     def give_channel_indicator(self, new_channel):
         self.channel = new_channel
