@@ -57,3 +57,26 @@ class ParseInput:
     def execute_move(self, inputs):
         move_type, client_name, new_x, new_y = inputs[0], inputs[1], int(inputs[2]), int(inputs[3])
         self.occurs.append((move_type, client_name, new_x, new_y))
+
+    def execute_simulation(self):
+        """Executes the simulation by processing events, moving clients, evaluating roaming, and managing AP channels."""
+        for event in self.occurs:
+            self._process_event(event)
+
+        self.ac.manage_ap_channels()  # Manages channel assignments for APs
+        self._record_simulation_results()  # Logs the simulation results
+
+    def _process_event(self, event):
+        """Processes a single event by moving the client and evaluating roaming options."""
+        action, client_name, new_x, new_y = event
+        client = self._get_client_by_name(client_name)
+        client.move(new_x, new_y)
+        client.assess_roaming_options(self.aps)
+
+    def _get_client_by_name(self, client_name):
+        """Retrieves a client object by its name."""
+        return next(c for c in self.clients if c.name == client_name)
+
+    def _record_simulation_results(self):
+        """Logs the results of the simulation."""
+        self._log_results()
