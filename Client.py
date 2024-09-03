@@ -59,7 +59,7 @@ class Client:
         optimal_ap = self._find_optimal_ap(available_aps)
         if optimal_ap and self._should_roam(optimal_ap):
             self._roam_to(optimal_ap)
-            print(f"{self.name} roamed to {optimal_ap.name}")  # Debugging print
+            print(f"{self.name} roamed to {optimal_ap.name}")
         else:
             print(f"{self.name} did not roam to a new AP")
 

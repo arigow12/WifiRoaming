@@ -1,3 +1,7 @@
+from AccessPoint import AccessPoint
+from Client import Client
+from AC import AC_controller
+
 class ParseInput:
 
     def __init__(self):
@@ -42,12 +46,11 @@ class ParseInput:
         self.access_points.append(e_ap)
 
 
-
     def execute_client(self, inputs):
         client = Client(
-            name=inputs[1],
-            x=int(inputs[2]),
-            y=int(inputs[3]),
+            client_name=inputs[1],
+            client_x=int(inputs[2]),
+            client_y=int(inputs[3]),
             standard=inputs[4],
             speed=int(inputs[5]),
             y_11k=inputs[6].lower() == 'true',
@@ -64,7 +67,7 @@ class ParseInput:
     def execute_simulation(self):
         for event in self.occurs:
             self._process_event(event)
-        self.ac.change_channels()
+        self.ac.change_channel()
         self._record_simulation_results()
 
     def _process_event(self, event):
