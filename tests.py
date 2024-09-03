@@ -193,6 +193,5 @@ class TestParseInput(unittest.TestCase):
         sys.stdin = sys.__stdin__
         sys.stdout = sys.__stdout__
 
-
 if __name__ == '__main__':
     unittest.main()
